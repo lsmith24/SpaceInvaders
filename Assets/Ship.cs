@@ -5,13 +5,15 @@ using UnityEngine;
 public class Ship : MonoBehaviour
 {
     // Space Invaders Ship
-    public Vector3 force;
+    public float speed;
     public GameObject bullet;
 
     // Start is called before the first frame update
     void Start()
     {
-        force.x = 0.07f;
+        speed = 0.03f;
+        Vector3 shootPos = gameObject.transform.position;
+        shootPos.z += 0.51f;
     }
 
     // Update is called once per frame
@@ -20,21 +22,19 @@ public class Ship : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             Vector3 spawnPos = gameObject.transform.position;
-            spawnPos.z += 0.6f;
+            spawnPos.z += 0.55f;
             GameObject obj = Instantiate(bullet, spawnPos, Quaternion.identity) as GameObject;
             BulletScript b = obj.GetComponent<BulletScript>();
+            b.ship = gameObject;
+        }
+        if (Input.GetAxisRaw("Horizontal") > 0 && gameObject.transform.position.x < 13.0f)
+        {
+            gameObject.transform.Translate(speed, 0, 0);
+        }
+        if (Input.GetAxisRaw("Horizontal") < 0 && gameObject.transform.position.x > -13.0f)
+        {
+            gameObject.transform.Translate(-speed, 0, 0);
         }
     }
 
-    void FixedUpdate()
-    {
-        if (Input.GetAxisRaw("Horizontal") > 0)
-        {
-            GetComponent<Rigidbody>().position += force;
-        }
-        if (Input.GetAxisRaw("Horizontal") < 0)
-        {
-            GetComponent<Rigidbody>().position += -force;
-        }
-    }
 }
