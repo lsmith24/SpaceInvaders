@@ -11,7 +11,7 @@ public class Ship : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speed = 0.03f;
+        speed = 0.01f;
         Vector3 shootPos = gameObject.transform.position;
         shootPos.z += 0.51f;
     }
@@ -27,14 +27,19 @@ public class Ship : MonoBehaviour
             BulletScript b = obj.GetComponent<BulletScript>();
             b.ship = gameObject;
         }
-        if (Input.GetAxisRaw("Horizontal") > 0 && gameObject.transform.position.x < 13.0f)
+        if (Input.GetAxisRaw("Horizontal") > 0 && gameObject.transform.position.x < 18.0f)
         {
             gameObject.transform.Translate(speed, 0, 0);
         }
-        if (Input.GetAxisRaw("Horizontal") < 0 && gameObject.transform.position.x > -13.0f)
+        if (Input.GetAxisRaw("Horizontal") < 0 && gameObject.transform.position.x > -18.0f)
         {
             gameObject.transform.Translate(-speed, 0, 0);
         }
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 
 }

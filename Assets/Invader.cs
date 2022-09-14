@@ -7,6 +7,7 @@ public class Invader : MonoBehaviour
     public int points;
     public float speed;
     //public GameController gameController;
+    public GameObject InvaderBullet;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +19,7 @@ public class Invader : MonoBehaviour
     {
         Vector3 spawnPos = gameObject.transform.position;
         spawnPos.z -= 0.25f;
-        //Instantiate(bullet, spawnPos, Quaternion.identity);
+        Instantiate(InvaderBullet, spawnPos, Quaternion.identity);
     }
 
     void FixedUpdate()
@@ -29,7 +30,7 @@ public class Invader : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Die()

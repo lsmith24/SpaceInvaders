@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletScript : MonoBehaviour
+public class InvaderBullet : MonoBehaviour
 {
     public Vector3 thrust;
-    public GameObject ship;
 
     // Start is called before the first frame update
     void Start()
     {
-        thrust.z = 450.0f;
+        thrust.z = -300.0f;
         GetComponent<Rigidbody>().drag = 0;
         GetComponent<Rigidbody>().AddRelativeForce(thrust);
     }
@@ -21,18 +20,19 @@ public class BulletScript : MonoBehaviour
         
     }
 
-    void FixedUpdate()
-    {
-
-    }
-
     void OnCollisionEnter(Collision collision)
     {
         Collider collider = collision.collider;
-        if (collider.CompareTag("Invader"))
+        if (collider.CompareTag("Ship"))
         {
-            Invader invader = collider.gameObject.GetComponent<Invader>();
-            invader.Die();
+            Ship ship = collider.gameObject.GetComponent<Ship>();
+            ship.Die();
+            Destroy(gameObject);
+        }
+        else if (collider.CompareTag("Bullet"))
+        {
+            BulletScript playerBullet = collider.gameObject.GetComponent<BulletScript>();
+            playerBullet.Die();
             Destroy(gameObject);
         }
         else if (collider.CompareTag("Shield"))
@@ -41,10 +41,5 @@ public class BulletScript : MonoBehaviour
             shield.takeDamage();
             Destroy(gameObject);
         }
-    }
-
-    public void Die()
-    {
-        Destroy(gameObject);
     }
 }
