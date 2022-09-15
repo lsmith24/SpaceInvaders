@@ -14,7 +14,7 @@ public class Ship : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speed = 0.01f;
+        speed = 0.05f;
         Vector3 shootPos = gameObject.transform.position;
         shootPos.z += 0.51f;
     }
@@ -47,6 +47,17 @@ public class Ship : MonoBehaviour
         g.loseLife();
         AudioSource.PlayClipAtPoint(deathKnell, gameObject.transform.position);
         Destroy(gameObject);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Collider collider = collision.collider;
+        if (collider.CompareTag("Invader"))
+        {
+            Global g = global.GetComponent<Global>();
+            g.gameOver();
+            Destroy(gameObject);
+        }
     }
 
 }

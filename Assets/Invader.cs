@@ -12,6 +12,7 @@ public class Invader : MonoBehaviour
     void Start()
     {
         Physics.IgnoreLayerCollision(6, 7);
+        Physics.IgnoreLayerCollision(6, 6);
     }
 
     public void Fire()

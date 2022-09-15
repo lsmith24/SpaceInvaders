@@ -53,7 +53,7 @@ public class Global : MonoBehaviour
 
         setupShields();
 
-        GameObject scoreObj = Instantiate(scoreUI, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        GameObject scoreObj = Instantiate(scoreUI, new Vector3(0, 0, 20), Quaternion.identity) as GameObject;
         GameObject livesObj = Instantiate(livesUI, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
     }
 
@@ -157,6 +157,10 @@ public class Global : MonoBehaviour
                 {
                     // find min and max invader positions
                     Vector3 pos = invaderArr[row, col].transform.position;
+                    if (pos.z <= 0)
+                    {
+                        gameOver();
+                    }
                     min = Mathf.Min(pos.x, min);
                     max = Mathf.Max(pos.x, max);
                 }
@@ -173,8 +177,11 @@ public class Global : MonoBehaviour
                 {
                     if (!invaderArr[row, col].Equals(null))
                     {
-                        //invaderArr[row, col].transform.position -= new Vector3(0, 0, 0.5f);
-                        //invaderArr[row, col].transform.Translate(0, 0, -0.5f);
+                        //invaderArr[row, col].transform.Translate(0, 0, -0.3f);
+                        Vector3 currPos = invaderArr[row, col].transform.position;
+                        currPos.y = 0.0f;
+                        currPos.z -= 0.4f;
+                        invaderArr[row, col].transform.position = currPos;
                         invaderArr[row, col].speed *= -1.2f;
                     }
                 }
@@ -182,7 +189,7 @@ public class Global : MonoBehaviour
         }
 
         // fire some percentage of the time
-        if (Random.Range(0.0f, 1.0f) <= (0.00003f * invadersLeft))
+        if (Random.Range(0.0f, 1.0f) <= (0.00004f * invadersLeft))
         {
             int randRow = (int)Random.Range(0.0f, 4.0f);
             int randCol = (int)Random.Range(0.0f, 11.0f);
@@ -217,6 +224,9 @@ public class Global : MonoBehaviour
         {
             GameObject winText = Instantiate(winUI, new Vector3(0, 0, 0), Quaternion.identity);
         }
+        invadersLeft = 48;
+        lives = 3;
+        score = 0;
         Application.LoadLevel("GameOver");
     }
 
