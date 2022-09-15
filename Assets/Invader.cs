@@ -6,13 +6,12 @@ public class Invader : MonoBehaviour
 {
     public int points;
     public float speed;
-    //public GameController gameController;
     public GameObject InvaderBullet;
 
     // Start is called before the first frame update
     void Start()
     {
-        //Physics.IgnoreLayerCollision(8, 9);
+        Physics.IgnoreLayerCollision(6, 7);
     }
 
     public void Fire()
@@ -35,6 +34,19 @@ public class Invader : MonoBehaviour
 
     public void Die()
     {
+        GameObject obj = GameObject.Find("GlobalObject");
+        Global g = obj.GetComponent<Global>();
+        g.invadersLeft--;
+        g.score += points;
         Destroy(gameObject);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Collider collider = collision.collider;
+        if (collider.CompareTag("Shield"))
+        {
+            Destroy(collider.gameObject);
+        }
     }
 }

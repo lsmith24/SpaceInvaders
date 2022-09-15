@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4454080240655440162}
   - component: {fileID: 4454080240655440158}
   - component: {fileID: 3945855561910766437}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InvaderMed
   m_TagString: Invader
   m_Icon: {fileID: 0}
@@ -129,4 +129,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   points: 20
   speed: 0
-  InvaderBullet: {fileID: 0}
+  InvaderBullet: {fileID: 5544944374032272220, guid: 1757ad5eea56d3847945db122fd6774f, type: 3}

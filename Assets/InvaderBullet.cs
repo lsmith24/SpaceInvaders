@@ -12,6 +12,8 @@ public class InvaderBullet : MonoBehaviour
         thrust.z = -300.0f;
         GetComponent<Rigidbody>().drag = 0;
         GetComponent<Rigidbody>().AddRelativeForce(thrust);
+        Physics.IgnoreLayerCollision(6, 7);
+        Physics.IgnoreLayerCollision(7, 7);
     }
 
     // Update is called once per frame

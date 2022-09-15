@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 2794904189649001273}
   - component: {fileID: 1434196920182801059}
   - component: {fileID: 6927847489838737912}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: InvaderBullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,3 +127,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8316d0d21689ffe438cc543a3db2938b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thrust: {x: 0, y: 0, z: 0}

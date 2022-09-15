@@ -7,6 +7,9 @@ public class Ship : MonoBehaviour
     // Space Invaders Ship
     public float speed;
     public GameObject bullet;
+    public GameObject global;
+    public AudioClip deathKnell;
+    public AudioClip shoot;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +27,7 @@ public class Ship : MonoBehaviour
             Vector3 spawnPos = gameObject.transform.position;
             spawnPos.z += 0.55f;
             GameObject obj = Instantiate(bullet, spawnPos, Quaternion.identity) as GameObject;
+            AudioSource.PlayClipAtPoint(shoot, gameObject.transform.position);
             BulletScript b = obj.GetComponent<BulletScript>();
             b.ship = gameObject;
         }
@@ -39,7 +43,12 @@ public class Ship : MonoBehaviour
 
     public void Die()
     {
+        Global g = global.GetComponent<Global>();
+        g.loseLife();
+        AudioSource.PlayClipAtPoint(deathKnell, gameObject.transform.position);
         Destroy(gameObject);
     }
 
 }
+
+

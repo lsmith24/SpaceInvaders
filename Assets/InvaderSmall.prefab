@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6833276764383000877}
   - component: {fileID: 8755641558182568113}
   - component: {fileID: -8417817743678035333}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InvaderSmall
   m_TagString: Invader
   m_Icon: {fileID: 0}
