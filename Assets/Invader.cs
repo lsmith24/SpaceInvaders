@@ -37,7 +37,10 @@ public class Invader : MonoBehaviour
     {
         GameObject obj = GameObject.Find("GlobalObject");
         Global g = obj.GetComponent<Global>();
-        g.invadersLeft--;
+        if (gameObject.CompareTag("Invader"))
+        {
+            g.invadersLeft--;
+        }
         g.score += points;
         Destroy(gameObject);
     }

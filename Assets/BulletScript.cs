@@ -29,7 +29,7 @@ public class BulletScript : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         Collider collider = collision.collider;
-        if (collider.CompareTag("Invader"))
+        if (collider.CompareTag("Invader") || collider.CompareTag("UFO"))
         {
             Invader invader = collider.gameObject.GetComponent<Invader>();
             invader.Die();

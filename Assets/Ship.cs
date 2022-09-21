@@ -14,7 +14,7 @@ public class Ship : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speed = 0.05f;
+        speed = 0.03f;
         Vector3 shootPos = gameObject.transform.position;
         shootPos.z += 0.51f;
     }
