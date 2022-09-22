@@ -36,7 +36,7 @@ public class Ship : MonoBehaviour
         {
             gameObject.transform.Translate(speed, 0, 0);
         }
-        if (Input.GetAxisRaw("Horizontal") < 0 && gameObject.transform.position.x > -18.0f)
+        if (Input.GetAxisRaw("Horizontal") <= 0 && gameObject.transform.position.x > -18.0f)
         {
             gameObject.transform.Translate(-speed, 0, 0);
         }

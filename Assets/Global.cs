@@ -54,10 +54,10 @@ public class Global : MonoBehaviour
         timer2 = 0;
         lives = 3;
         spawnPeriod = 20.0f;
-        powerUpPeriod = Random.Range(5.0f, 15.0f);
+        powerUpPeriod = Random.Range(5.0f, 10.0f);
         active = false;
         powerUpActive = false;
-        powerUpDuration = Random.Range(7.0f, 13.0f);
+        powerUpDuration = Random.Range(3.0f, 7.0f);
 
         setupInvaders();
 
