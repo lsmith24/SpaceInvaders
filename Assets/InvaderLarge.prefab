@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5c966f1da0c2ceb4d991868151010d5f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -98,7 +98,7 @@ CapsuleCollider:
   m_Enabled: 1
   m_Radius: 0.5000001
   m_Height: 2
-  m_Direction: 1
+  m_Direction: 2
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!54 &9177254026157713754
 Rigidbody:
@@ -114,7 +114,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!114 &9177254026157713757
 MonoBehaviour:
@@ -131,3 +131,5 @@ MonoBehaviour:
   points: 10
   speed: 0
   InvaderBullet: {fileID: 5544944374032272220, guid: 1757ad5eea56d3847945db122fd6774f, type: 3}
+  hit: 0
+  explosion: {fileID: 9027857072884859727, guid: c3ddb7c0183d8b24cb2cabe4e9cdffca, type: 3}

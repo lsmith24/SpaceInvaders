@@ -227,11 +227,18 @@ MonoBehaviour:
   spawnPeriod: 0
   spawnPos: {x: 0, y: 0, z: 0}
   ship: {fileID: 1927550078157346114, guid: 2c3ae936a91609e468eee9ef2050068a, type: 3}
+  platform: {fileID: 8162941849353158993, guid: 7c6af920c3ba4cb4d8c9b741b2dc66e0, type: 3}
   shield: {fileID: 6608806840495763551, guid: 7c3b2a6e6fb9c5449b528683762dd728, type: 3}
   invaderLarge: {fileID: 9177254026157713751, guid: d3d741e0c88d8864fae0d98447e05286, type: 3}
   invaderMed: {fileID: 4454080240655440163, guid: b49bdffa015de264b8713a6547e95107, type: 3}
   invaderSmall: {fileID: 4246931746938170027, guid: e4784ee12b3ca084f89e9340f2a822bf, type: 3}
   invaderUFO: {fileID: 3760643961018338711, guid: 30b752b3d85c1c24cb7969f9f496c58f, type: 3}
+  powerUp: {fileID: 8716565197416772045, guid: 86de0b9b299ba35458ca32f0d089ed19, type: 3}
+  timer2: 0
+  powerUpPeriod: 0
+  powerUpDuration: 0
+  powerUpActive: 0
+  startTime: 0
   scoreUI: {fileID: 2379146651457524499, guid: ae8beeab9388b0e4f9baa43fca307b75, type: 3}
   livesUI: {fileID: 8558652371322714091, guid: 98b636c0e70f1f74b94b4bcb3c03f2f1, type: 3}
   winUI: {fileID: 6607808608975582103, guid: ab0b84c052ab9894fb70959fd784105c, type: 3}
@@ -421,7 +428,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.70710665, y: -0, z: -0, w: 0.70710695}
-  m_LocalPosition: {x: 0, y: 25, z: 11}
+  m_LocalPosition: {x: -0.5311473, y: 35.08155, z: 12.947677}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

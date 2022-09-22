@@ -5,6 +5,7 @@ using UnityEngine;
 public class InvaderBullet : MonoBehaviour
 {
     public Vector3 thrust;
+    public bool hit = false;
 
     // Start is called before the first frame update
     void Start()
@@ -19,29 +20,50 @@ public class InvaderBullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (gameObject.transform.position.z <= -5)
+        {
+            Destroy(gameObject);
+        }
+        if (gameObject.transform.position.z < 0)
+        {
+            GetHit();
+        }
+    }
+
+    public void GetHit()
+    {
+        gameObject.GetComponent<Rigidbody>().useGravity = true;
+        hit = true;
     }
 
     void OnCollisionEnter(Collision collision)
     {
         Collider collider = collision.collider;
-        if (collider.CompareTag("Ship"))
+        if (collider.CompareTag("Ship") && !hit)
         {
             Ship ship = collider.gameObject.GetComponent<Ship>();
             ship.Die();
             Destroy(gameObject);
         }
-        else if (collider.CompareTag("Bullet"))
+        else if (collider.CompareTag("Bullet") && !hit)
         {
             BulletScript playerBullet = collider.gameObject.GetComponent<BulletScript>();
-            playerBullet.Die();
-            Destroy(gameObject);
+            playerBullet.GetHit();
+            GetHit();
         }
-        else if (collider.CompareTag("Shield"))
+        else if (collider.CompareTag("Shield") && !hit)
         {
             Shield shield = collider.gameObject.GetComponent<Shield>();
             shield.takeDamage();
-            Destroy(gameObject);
+            GetHit();
+        }
+        else if (collider.CompareTag("Platform") && !hit)
+        {
+            GetHit();
+        }
+        else if (collider.CompareTag("Invader") && !hit)
+        {
+            GetHit();
         }
     }
 }

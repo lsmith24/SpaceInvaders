@@ -7,6 +7,8 @@ public class Invader : MonoBehaviour
     public int points;
     public float speed;
     public GameObject InvaderBullet;
+    public bool hit = false;
+    public GameObject explosion;
 
     // Start is called before the first frame update
     void Start()
@@ -24,13 +26,27 @@ public class Invader : MonoBehaviour
 
     void FixedUpdate()
     {
-        gameObject.transform.Translate(speed, 0, 0);
+        if (!hit)
+        {
+            gameObject.transform.Translate(speed, 0, 0);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        Vector3 pos = transform.position;
+        if (pos.z <= -5)
+        {
+            Die();
+        }
+    }
 
+    public void GetHit()
+    {
+        gameObject.GetComponent<Rigidbody>().useGravity = true;
+        hit = true;
+        Instantiate(explosion, gameObject.transform.position, Quaternion.AngleAxis(-90, Vector3.right));
     }
 
     public void Die()
@@ -48,7 +64,7 @@ public class Invader : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         Collider collider = collision.collider;
-        if (collider.CompareTag("Shield"))
+        if (collider.CompareTag("Shield") && !hit)
         {
             Destroy(collider.gameObject);
         }

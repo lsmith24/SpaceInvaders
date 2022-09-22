@@ -15,6 +15,7 @@ public class Global : MonoBehaviour
     public Vector3 spawnPos;
     public GameObject ship;
     Ship playerShip;
+    public GameObject platform;
 
     public GameObject shield;
     public GameObject invaderLarge;
@@ -26,6 +27,14 @@ public class Global : MonoBehaviour
     Invader[,] invaderArr;
     bool moveLeft = true;
     bool won = false;
+
+    public GameObject powerUp;
+    public float timer2;
+    public float powerUpPeriod;
+    public float powerUpDuration;
+    public bool powerUpActive;
+    public float startTime;
+    GameObject currentPowerUp;
 
     public GameObject scoreUI;
     public GameObject livesUI;
@@ -42,14 +51,21 @@ public class Global : MonoBehaviour
     {
         score = 0;
         timer = 0;
+        timer2 = 0;
         lives = 3;
         spawnPeriod = 20.0f;
+        powerUpPeriod = Random.Range(5.0f, 15.0f);
+        active = false;
+        powerUpActive = false;
+        powerUpDuration = Random.Range(7.0f, 13.0f);
 
         setupInvaders();
 
         GameObject playerObj = Instantiate(ship, spawnPos, Quaternion.identity) as GameObject;
         playerShip = playerObj.GetComponent<Ship>();
         playerShip.global = gameObject;
+
+        GameObject pf = Instantiate(platform, new Vector3(0, 0, -2.5f), Quaternion.identity) as GameObject;
 
         setupShields();
 
@@ -72,7 +88,7 @@ public class Global : MonoBehaviour
     {
         moveLeft = true;
         invaderArr = new Invader[4, 12];
-        Vector3 invPos = new Vector3(-15.0f, 0.0f, 10.0f);
+        Vector3 invPos = new Vector3(-15.0f, 0.0f, 15.0f);
 
         for (int row = 0; row < 4; row++)
         {
@@ -111,17 +127,24 @@ public class Global : MonoBehaviour
         }
         invadersLeft = 48;
         invPos.x = -15.0f;
-        invPos.z = 10.0f;
+        invPos.z = 15.0f;
     }
 
     public void spawnUFO()
     {
-        Vector3 invPos = new Vector3(-35.0f, 0.0f, 21);
+        Vector3 invPos = new Vector3(-35.0f, 0.0f, 27);
         GameObject invader = Instantiate(invaderUFO, invPos, Quaternion.identity) as GameObject;
         Invader inv = invader.GetComponent<Invader>();
         inv.speed = 0.15f;
         currentUFO = invader;
         active = true;
+    }
+
+    public void spawnPowerUp()
+    {
+        GameObject power = Instantiate(powerUp) as GameObject;
+        powerUpActive = true;
+        PowerUp pu = power.GetComponent<PowerUp>();
     }
 
     // Update is called once per frame
@@ -134,10 +157,25 @@ public class Global : MonoBehaviour
         }
 
         timer += Time.deltaTime;
-        if (timer > spawnPeriod)
+        if (timer > spawnPeriod && !active)
         {
             timer = 0.0f;
             spawnUFO();
+        }
+
+        timer2 += Time.deltaTime;
+        if (timer2 > powerUpPeriod && !powerUpActive)
+        {
+            spawnPowerUp();
+            startTime = Time.deltaTime;
+            powerUpActive = true;
+        }
+
+        if (timer2 > (startTime + powerUpDuration))
+        {
+            Destroy(currentPowerUp);
+            unfreezeInvaders();
+            timer2 = 0.0f;
         }
 
         if (active && currentUFO.transform.position.x > 40)
@@ -157,7 +195,8 @@ public class Global : MonoBehaviour
                 {
                     // find min and max invader positions
                     Vector3 pos = invaderArr[row, col].transform.position;
-                    if (pos.z <= 0)
+                    bool hit = invaderArr[row, col].hit;
+                    if (pos.z <= 0 && !hit)
                     {
                         gameOver();
                     }
@@ -177,19 +216,24 @@ public class Global : MonoBehaviour
                 {
                     if (!invaderArr[row, col].Equals(null))
                     {
-                        //invaderArr[row, col].transform.Translate(0, 0, -0.3f);
-                        Vector3 currPos = invaderArr[row, col].transform.position;
-                        currPos.y = 0.0f;
-                        currPos.z -= 0.4f;
-                        invaderArr[row, col].transform.position = currPos;
-                        invaderArr[row, col].speed *= -1.2f;
+                        bool hit = invaderArr[row, col].hit;
+                        if (!hit && !powerUpActive)
+                        {
+                            Vector3 currPos = invaderArr[row, col].transform.position;
+                            currPos.y = 0.0f;
+                            currPos.z -= 0.4f;
+                            invaderArr[row, col].transform.position = currPos;
+                            invaderArr[row, col].speed *= -1.2f;
+                        }
+                        if (hit)
+                            invaderArr[row, col].speed = 0;
                     }
                 }
             }
         }
 
         // fire some percentage of the time
-        if (Random.Range(0.0f, 1.0f) <= (0.00004f * invadersLeft))
+        if (Random.Range(0.0f, 1.0f) <= (0.00004f * invadersLeft) && !powerUpActive)
         {
             int randRow = (int)Random.Range(0.0f, 4.0f);
             int randCol = (int)Random.Range(0.0f, 11.0f);
@@ -197,6 +241,44 @@ public class Global : MonoBehaviour
             invaderArr[randRow, randCol].Fire();
         }
 
+    }
+
+    public void freezeInvaders()
+    {
+        powerUpActive = false;
+ 
+        for (int row = 0; row < 4; row++)
+        {
+            for (int col = 0; col < 12; col++)
+            {
+                if (!invaderArr[row, col].Equals(null))
+                {
+                    bool hit = invaderArr[row, col].hit;
+                    if (!hit)
+                    {
+                        invaderArr[row, col].GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+                    }
+                }
+            }
+        }
+    }
+
+    void unfreezeInvaders()
+    {
+        for (int row = 0; row < 4; row++)
+        {
+            for (int col = 0; col < 12; col++)
+            {
+                if (!invaderArr[row, col].Equals(null))
+                {
+                    bool hit = invaderArr[row, col].hit;
+                    if (!hit)
+                    {
+                        invaderArr[row, col].GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                    }
+                }
+            }
+        }
     }
 
     public void gameOver()
@@ -219,7 +301,6 @@ public class Global : MonoBehaviour
             Destroy(sh);
         }
 
-        DontDestroyOnLoad(gameObject);
         if (won)
         {
             GameObject winText = Instantiate(winUI, new Vector3(0, 0, 0), Quaternion.identity);
@@ -227,6 +308,7 @@ public class Global : MonoBehaviour
         invadersLeft = 48;
         lives = 3;
         score = 0;
+        Destroy(gameObject);
         Application.LoadLevel("GameOver");
     }
 

@@ -10,6 +10,7 @@ public class Ship : MonoBehaviour
     public GameObject global;
     public AudioClip deathKnell;
     public AudioClip shoot;
+    //public GameObject explosion;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +44,7 @@ public class Ship : MonoBehaviour
 
     public void Die()
     {
+        //Instantiate(explosion, gameObject.transform.position, Quaternion.AngleAxis(-90, Vector3.right));
         Global g = global.GetComponent<Global>();
         g.loseLife();
         AudioSource.PlayClipAtPoint(deathKnell, gameObject.transform.position);
@@ -51,13 +53,13 @@ public class Ship : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Collider collider = collision.collider;
-        if (collider.CompareTag("Invader"))
-        {
-            Global g = global.GetComponent<Global>();
-            g.gameOver();
-            Destroy(gameObject);
-        }
+        //Collider collider = collision.collider;
+        //if (collider.CompareTag("Invader"))
+        //{
+        //    Global g = global.GetComponent<Global>();
+        //    g.gameOver();
+        //    Destroy(gameObject);
+        //}
     }
 
 }
